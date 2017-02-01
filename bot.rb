@@ -1,5 +1,5 @@
 require 'slack-ruby-bot'
-require './gravatar_helper'
+require './gravatar_helper.rb'
 
 SlackRubyBot::Client.logger.level = Logger::ERROR
 ENV['SLACK_API_TOKEN'] = "<YOUR SLACK TOKEN HERE>"
@@ -44,7 +44,7 @@ class Bot < SlackRubyBot::Bot
     )
   end
 
-  match(/^[Gg]ravatar for (?<email>.*@.*\..*)\??/) do |client, data, match|
+  match(/^[Gg]ravatar for <mailto:.*\|(?<email>.*)>\??/) do |client, data, match|
     puts "ok"
     puts match[:email]
     client.web_client.chat_postMessage(
@@ -57,6 +57,10 @@ class Bot < SlackRubyBot::Bot
         }
       ]
     )
+  end
+
+  match(/^interesting/) do |client, data, match|
+    puts data
   end
 end
 
